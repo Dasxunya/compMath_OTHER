@@ -1,3 +1,4 @@
+import datetime
 import random
 import colors as color
 import re
@@ -131,14 +132,19 @@ class Calculator:
     def calculate(self):
         try:
             print("\nПолученная система:")
-            self.print_matrix(self.coeff)
+            self.print_coeff(self.coeff)
+
             print("Столбец сумм:")
             self.t_sum()
+
+            start = datetime.datetime.now()
             self.method_Choleskogo()
+            timedelta = datetime.datetime.now() - start
+            print("\nРезультат:")
+            self.calc_res()
+            print("Время работы метода: " + str(timedelta))
             print("\n")
-        except ZeroDivisionError:
-            return
-        except ArithmeticError:
+        except (ZeroDivisionError, ArithmeticError):
             print(color.RED + "\nНет решений:(\n")
             return
 
@@ -147,6 +153,17 @@ class Calculator:
         while i < self.n:
             j = 0
             while j < self.n + 1:
+                print(" ", toFixed(some_list[i][j]), end='')
+                j += 1
+            print(" ", toFixed(some_list[i][-1]))
+            i += 1
+
+    # Вывод системы на экран
+    def print_coeff(self, some_list):
+        i = 0
+        while i < self.n:
+            j = 0
+            while j < self.n:
                 print(" ", toFixed(some_list[i][j]), end='')
                 j += 1
             print(" ", toFixed(some_list[i][-1]))
@@ -188,8 +205,6 @@ class Calculator:
         print("\nПреобразованный столбец сумм:")
         for i in range(self.n):
             print("Σ[" + str(i + 1) + "] =" + toFixed(self.C[i][self.n + 1]))
-        print("\nРезультат:")
-        self.calc_res()
 
     def t_sum(self):
         for i in range(self.n):
