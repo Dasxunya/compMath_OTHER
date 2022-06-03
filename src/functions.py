@@ -23,7 +23,7 @@ def optimize(n, arr):
 
 
 def file_function(filename):
-    """"Функия для файлового ввода значений"""
+    """"Функция для файлового ввода значений"""
     try:
         n = -1
         array = []
@@ -57,7 +57,7 @@ def file_function(filename):
 
 
 def console_function():
-    """"Функия для консольного ввода значений"""
+    """"Функция для консольного ввода значений"""
     try:
         n = int(input("Введите количество строк в уравнении (число не должно превышать 20):\n>"))
         if (n <= 20) and (n > 1):
@@ -85,7 +85,7 @@ def console_function():
 
 
 def generate_function():
-    """"Функия для генерации значений матрицы"""
+    """"Функция для генерации значений матрицы"""
     try:
         array = []
         n = int(input("Введите количество строк в уравнении (число не должно превышать 20):\n>"))
@@ -117,10 +117,10 @@ class Calculator:
         self.coeff = coeff
         self.det = []
         self.total_sum = [0 for i in range(n)]
-        self.B = [[0 for i in range(n+1)] for j in range(n+1)]
-        self.C = [[0 for i in range(n+1)] for j in range(n+1)]
+        self.B = [[0 for i in range(n + 1)] for j in range(n + 1)]
+        self.C = [[0 for i in range(n + 1)] for j in range(n + 1)]
         for i in range(n):
-            for j in range(n+1):
+            for j in range(n + 1):
                 if i != j:
                     self.C[i][j] = 0
                 else:
@@ -186,28 +186,8 @@ class Calculator:
         self.print_matrix(self.C)
         print("\nСтолбец сумм:")
 
-
-
-# def print_vector_x(self):
-#     i = 0
-#     print('Решение системы:')
-#     self.vector.reverse()
-#     while i < self.n:
-#         print('x[' + str(i + 1) + ']:', self.vector[i])
-#         i += 1
-#     print('')
-#
-# # Подсчет невязки r1 ... rn
-# def print_residuals(self):
-#     i = 0
-#     print('Невязки:')
-#     while i < self.n:
-#         res = 0
-#         j = 0
-#         while j < self.n:
-#             res = res + self.coeff[i][j] * self.vector[j]
-#             j += 1
-#         res = res - self.coeff[i][-1]
-#         i += 1
-#         print('Невязка', i, 'строки:', fabs(res))
-#     print('')
+    def t_sum(self):
+        for i in range(self.n):
+            sum = 0
+            for j in range(self.n + 1):
+                sum = sum + self.coeff[i][j]
