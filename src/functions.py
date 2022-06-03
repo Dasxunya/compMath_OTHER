@@ -210,10 +210,15 @@ class Calculator:
                 self.Y[i] = (self.coeff[i][self.n] - sum) / self.B[i][i]
         # подсчет X
         self.X[self.n - 1] = self.Y[self.n - 1]
+        i = self.n - 2
+        while i > -1:
+            k = self.n - 1
+            sum = 0
+            while k > i:
+                sum = sum + self.C[i][k] * self.X[k]
+                k -= 1
+            self.X[i] = self.Y[i] - sum
+            i -= 1
+        # вывод результата
         for i in range(self.n):
-            if i < self.n - 1:
-                sum = 0
-                for j in range(i + 1, self.n - 1):
-                    sum = sum + self.C[i][j] * self.X[j]
-                self.X[i] = self.Y[i] - sum
-            print(" Y[" + str(i + 1) + "] = " + str(self.Y[i]) + " X[" + str(i + 1) + "] = " + str(self.X[i]))
+            print(" Y[" + str(i + 1) + "] = " + toFixed(self.Y[i]) + " X[" + str(i + 1) + "] = " + toFixed(self.X[i]))
