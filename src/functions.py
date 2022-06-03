@@ -185,7 +185,7 @@ class Calculator:
         self.print_matrix(self.C)
         print("\nПреобразованный столбец сумм:")
         for i in range(self.n):
-            print("Σ[" + str(i + 1) + "] =" + toFixed(self.C[i][5]))
+            print("Σ[" + str(i + 1) + "] =" + toFixed(self.C[i][self.n + 1]))
 
     def t_sum(self):
         for i in range(self.n):
