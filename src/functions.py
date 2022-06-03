@@ -2,6 +2,7 @@ import datetime
 import random
 import colors as color
 import re
+from math import fabs
 
 
 def toFixed(num):
@@ -134,7 +135,7 @@ class Calculator:
             print("\nПолученная система:")
             self.print_coeff(self.coeff)
 
-            print("Столбец сумм:")
+            print("\nСтолбец сумм:")
             self.t_sum()
 
             start = datetime.datetime.now()
@@ -142,8 +143,10 @@ class Calculator:
             timedelta = datetime.datetime.now() - start
             print("\nРезультат:")
             self.calc_res()
-            print("Время работы метода: " + str(timedelta))
-            print("\n")
+
+            self.print_residuals()
+            print("\nВремя работы метода: " + str(timedelta) + "\n")
+
         except (ZeroDivisionError, ArithmeticError):
             print(color.RED + "\nНет решений:(\n")
             return
@@ -198,7 +201,7 @@ class Calculator:
                             sum = sum + self.B[i][k] * self.C[k][j]
                         self.C[i][j] = (self.total_sum[i] - sum) / self.B[i][i]
 
-        print("Матрица B:")
+        print("\nМатрица B:")
         self.print_matrix(self.B)
         print("\nМатрица C | b | Σ:")
         self.print_matrix(self.C)
@@ -237,3 +240,17 @@ class Calculator:
         # вывод результата
         for i in range(self.n):
             print(" Y[" + str(i + 1) + "] = " + toFixed(self.Y[i]) + " X[" + str(i + 1) + "] = " + toFixed(self.X[i]))
+
+    # Подсчет невязки r1 ... rn
+    def print_residuals(self):
+        i = 0
+        print('\nНевязки:')
+        while i < self.n:
+            res = 0
+            j = 0
+            while j < self.n:
+                res = res + self.coeff[i][j] * self.X[j]
+                j += 1
+            res = res - self.coeff[i][self.n]
+            i += 1
+            print('Невязка', i, 'строки:', fabs(res))
