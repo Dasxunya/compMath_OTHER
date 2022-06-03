@@ -118,9 +118,9 @@ class Calculator:
         self.det = []
         self.total_sum = [0 for i in range(n)]
         self.B = [[0 for i in range(n + 1)] for j in range(n + 1)]
-        self.C = [[0 for i in range(n + 1)] for j in range(n + 1)]
+        self.C = [[0 for i in range(n + 2)] for j in range(n + 2)]
         for i in range(n):
-            for j in range(n + 1):
+            for j in range(n + 2):
                 if i != j:
                     self.C[i][j] = 0
                 else:
@@ -129,8 +129,9 @@ class Calculator:
     def calculate(self):
         try:
             print("\nПолученная система:")
-            self.print_coeff()
-            print("\n")
+            self.print_matrix(self.coeff)
+            print("Столбец сумм:")
+            self.t_sum()
             self.method_Choleskogo()
             print("\n")
         except ZeroDivisionError:
@@ -139,34 +140,20 @@ class Calculator:
             print(color.RED + "\nНет решений:(\n")
             return
 
-    # Вывод системы на экран
-    def print_coeff(self):
-        i = 0
-        while i < self.n:
-            j = 0
-            while j < self.n:
-                print(" ", toFixed(self.coeff[i][j]), end='')
-                j += 1
-            print(" ", toFixed(self.coeff[i][-1]), "b[" + str(i + 1) + "]")
-            i += 1
-
     def print_matrix(self, some_list):
         i = 0
         while i < self.n:
             j = 0
-            while j < self.n:
+            while j < self.n + 1:
                 print(" ", toFixed(some_list[i][j]), end='')
                 j += 1
             print(" ", toFixed(some_list[i][-1]))
             i += 1
 
     def method_Choleskogo(self):
-        print("Столбец сумм:")
-        self.t_sum()
-        print("\n")
         global sum
         for i in range(self.n):
-            for j in range(self.n + 1):
+            for j in range(self.n + 2):
                 # для B - нижний треугольник
                 if i >= j:
                     self.B[i][0] = self.coeff[i][0]
@@ -176,23 +163,29 @@ class Calculator:
                             sum = sum + self.B[i][k] * self.C[k][j]
                         self.B[i][j] = self.coeff[i][j] - sum
                 # для C - верхний треугольник
-                if i < j:
+                if (i < j) and (j != self.n + 1):
                     self.C[0][j] = self.coeff[0][j] / self.B[0][0]
                     if i > 0:
                         sum = 0
                         for k in range(i):
                             sum = sum + self.B[i][k] * self.C[k][j]
                         self.C[i][j] = (self.coeff[i][j] - sum) / self.B[i][i]
-
-
+                # для столбца сумм
+                if (j == self.n + 1) and (i < j):
+                    self.C[0][5] = self.total_sum[0] / self.B[0][0]
+                    if i > 0:
+                        sum = 0
+                        for k in range(i):
+                            sum = sum + self.B[i][k] * self.C[k][j]
+                        self.C[i][j] = (self.total_sum[i] - sum) / self.B[i][i]
 
         print("Матрица B:")
         self.print_matrix(self.B)
-        print("\nМатрица C:")
+        print("\nМатрица C | b | Σ:")
         self.print_matrix(self.C)
         print("\nПреобразованный столбец сумм:")
         for i in range(self.n):
-            print("Z[" + str(i + 1) + "] =" + toFixed(self.total_sum[i]))
+            print("Σ[" + str(i + 1) + "] =" + toFixed(self.C[i][5]))
 
     def t_sum(self):
         for i in range(self.n):
@@ -200,4 +193,4 @@ class Calculator:
             for j in range(self.n + 1):
                 sum = sum + self.coeff[i][j]
             self.total_sum[i] = sum
-            print("Z[" + str(i + 1) + "] = " + str(sum))
+            print("\tZ[" + str(i + 1) + "] = " + str(sum))
