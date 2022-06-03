@@ -161,6 +161,9 @@ class Calculator:
             i += 1
 
     def method_Choleskogo(self):
+        print("Столбец сумм:")
+        self.t_sum()
+        print("\n")
         global sum
         for i in range(self.n):
             for j in range(self.n + 1):
@@ -184,10 +187,11 @@ class Calculator:
         self.print_matrix(self.B)
         print("\nМатрица C:")
         self.print_matrix(self.C)
-        print("\nСтолбец сумм:")
 
     def t_sum(self):
         for i in range(self.n):
             sum = 0
             for j in range(self.n + 1):
                 sum = sum + self.coeff[i][j]
+            self.total_sum[i] = sum
+            print("Z[" + str(i + 1) + "] = " + str(sum))
