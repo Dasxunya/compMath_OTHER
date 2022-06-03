@@ -183,10 +183,16 @@ class Calculator:
                         for k in range(i):
                             sum = sum + self.B[i][k] * self.C[k][j]
                         self.C[i][j] = (self.coeff[i][j] - sum) / self.B[i][i]
+
+
+
         print("Матрица B:")
         self.print_matrix(self.B)
         print("\nМатрица C:")
         self.print_matrix(self.C)
+        print("\nПреобразованный столбец сумм:")
+        for i in range(self.n):
+            print("Z[" + str(i + 1) + "] =" + toFixed(self.total_sum[i]))
 
     def t_sum(self):
         for i in range(self.n):
