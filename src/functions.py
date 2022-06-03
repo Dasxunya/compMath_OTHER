@@ -105,6 +105,8 @@ class Calculator:
     n = 0  # количество уравнений/неизвестных
     C = []
     B = []
+    X = []
+    Y = []
     coeff = []  # система уравнений
     sum = []
     vector = []  # вектор неизвестных
@@ -115,6 +117,8 @@ class Calculator:
         self.coeff = coeff
         self.det = []
         self.total_sum = [0 for i in range(n)]
+        self.X = [0 for i in range(n)]
+        self.Y = [0 for i in range(n)]
         self.B = [[0 for i in range(n + 1)] for j in range(n + 1)]
         self.C = [[0 for i in range(n + 2)] for j in range(n + 2)]
         for i in range(n):
@@ -184,6 +188,8 @@ class Calculator:
         print("\nПреобразованный столбец сумм:")
         for i in range(self.n):
             print("Σ[" + str(i + 1) + "] =" + toFixed(self.C[i][self.n + 1]))
+        print("\nРезультат:")
+        self.calc_res()
 
     def t_sum(self):
         for i in range(self.n):
@@ -192,3 +198,22 @@ class Calculator:
                 sum = sum + self.coeff[i][j]
             self.total_sum[i] = sum
             print("\tZ[" + str(i + 1) + "] = " + str(sum))
+
+    def calc_res(self):
+        # подсчет Y
+        for i in range(self.n):
+            self.Y[0] = self.coeff[0][self.n] / self.B[0][0]
+            if i > 0:
+                sum = 0
+                for k in range(i):
+                    sum = sum + self.B[i][k] * self.Y[k]
+                self.Y[i] = (self.coeff[i][self.n] - sum) / self.B[i][i]
+        # подсчет X
+        self.X[self.n - 1] = self.Y[self.n - 1]
+        for i in range(self.n):
+            if i < self.n - 1:
+                sum = 0
+                for j in range(i + 1, self.n - 1):
+                    sum = sum + self.C[i][j] * self.X[j]
+                self.X[i] = self.Y[i] - sum
+            print(" Y[" + str(i + 1) + "] = " + str(self.Y[i]) + " X[" + str(i + 1) + "] = " + str(self.X[i]))
