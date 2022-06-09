@@ -141,6 +141,15 @@ class Calculator:
             start = datetime.datetime.now()
             self.method_Choleskogo()
             timedelta = datetime.datetime.now() - start
+
+            print("\nМатрица B:")
+            self.print_matrix(self.B)
+            print("\nМатрица C | b | Σ:")
+            self.print_matrix(self.C)
+            print("\nПреобразованный столбец сумм:")
+            for i in range(self.n):
+                print("Σ[" + str(i + 1) + "] =" + toFixed(self.C[i][self.n + 1]))
+
             print("\nРезультат:")
             self.calc_res()
 
@@ -200,14 +209,6 @@ class Calculator:
                         for k in range(i):
                             sum = sum + self.B[i][k] * self.C[k][j]
                         self.C[i][j] = (self.total_sum[i] - sum) / self.B[i][i]
-
-        print("\nМатрица B:")
-        self.print_matrix(self.B)
-        print("\nМатрица C | b | Σ:")
-        self.print_matrix(self.C)
-        print("\nПреобразованный столбец сумм:")
-        for i in range(self.n):
-            print("Σ[" + str(i + 1) + "] =" + toFixed(self.C[i][self.n + 1]))
 
     def t_sum(self):
         for i in range(self.n):
