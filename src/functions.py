@@ -152,6 +152,10 @@ class Calculator:
 
             print("\nРезультат:")
             self.calc_res()
+            # вывод результата
+            for i in range(self.n):
+                print(
+                    " Y[" + str(i + 1) + "] = " + toFixed(self.Y[i]) + " X[" + str(i + 1) + "] = " + toFixed(self.X[i]))
 
             self.print_residuals()
             print("\nВремя работы метода: " + str(timedelta) + "\n")
@@ -241,9 +245,6 @@ class Calculator:
                 k -= 1
             self.X[i] = self.Y[i] - sum
             i -= 1
-        # вывод результата
-        for i in range(self.n):
-            print(" Y[" + str(i + 1) + "] = " + toFixed(self.Y[i]) + " X[" + str(i + 1) + "] = " + toFixed(self.X[i]))
 
     # Подсчет невязки r1 ... rn
     def print_residuals(self):
