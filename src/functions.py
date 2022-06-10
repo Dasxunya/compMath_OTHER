@@ -196,13 +196,16 @@ class Calculator:
                 # для C - верхний треугольник
                 if (i < j) and (j != self.n + 1):
                     self.C[0][j] = self.coeff[0][j] / self.B[0][0]
-                    if i > 0:
+                    # учет симметричности
+                    if (j < self.n) and (self.coeff[i][j] == self.coeff[j][i]) and (i > 0):
+                        self.C[i][j] = self.B[j][i] / self.B[i][i]
+                    elif i > 0:
                         sum = 0
                         for k in range(i):
                             sum = sum + self.B[i][k] * self.C[k][j]
                         self.C[i][j] = (self.coeff[i][j] - sum) / self.B[i][i]
                 # для столбца сумм
-                if (j == self.n + 1) and (i < j):
+                if (j == int(self.n + 1)) and (i < j):
                     self.C[0][self.n + 1] = self.total_sum[0] / self.B[0][0]
                     if i > 0:
                         sum = 0
